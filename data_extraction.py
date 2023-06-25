@@ -1,8 +1,11 @@
 import pandas as pd
 from datetime import datetime
 from git import Repo
-from app_config import MongoConfig, git_path, ids, start_date
+from app_config import MongoConfig, git_path, start_date
 
+ids = ['TNB MK Equity', 'YTLP MK Equity', 'SOLAR MK Equity', 'CYP MK Equity', 'JAK MK Equity', 'HSS MK Equity', 'RLEB MK Equity', 'STHB MK Equity', 'SUNVIEW MK Equity',
+        'SAMAIDEN MK Equity', 'CITAGLB MK Equity', 'JSB MK Equity', 'MLM MK Equity', 'MNHLDG MK Equity', 'PEKAT MK Equity', 'UZMA MK Equity'
+        ]
 
 if __name__ == '__main__':
 
