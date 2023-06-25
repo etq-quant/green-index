@@ -43,9 +43,10 @@ if nsdf.shape[0]:
     df = df.sort_values(['date', 'id_bbg'])
     df = df[df['id_bbg'].isin(nsdf['id_bbg'])]
 
-    df['total_market_cap'] = df.groupby(['date'])['cur_mkt_cap'].transform('sum')
+    df['log_market_cap'] = np.log(df['cur_mkt_cap'])
+    df['total_log_market_cap'] = df.groupby(['date'])['log_market_cap'].transform('sum')
     df['return'] = df['px_last']/df['px_last_1']-1
-    df['weight'] = np.log(df['cur_mkt_cap'])/np.log(df['total_market_cap'])
+    df['weight'] = np.log(df['log_market_cap'])/np.log(df['total_log_market_cap'])
     df['weighted_return']= (df['return']*df['weight'])+1
     df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
 
