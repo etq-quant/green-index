@@ -63,7 +63,7 @@ if nsdf.shape[0]:
     
     fig.add_scatter(x = [fig.data[0].x[-1]], y = [fig.data[0].y[-1]],
                      mode = 'markers + text',
-                     marker = {'color':'#fc4f30', 'size':14},
+                     marker = {'color':'#fc4f30', 'size':10},
                      showlegend = False,
                      text = ['{:,.2f}'.format(fig.data[0].y[-1])],
                      textfont=dict(color='#fc4f30', size=24),
