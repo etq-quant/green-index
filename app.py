@@ -39,71 +39,72 @@ grid_table = AgGrid(sdf, gridOptions=gridoptions,
 selected_row = grid_table["selected_rows"]
 nsdf = pd.DataFrame(selected_row)
 #st.dataframe(nsdf[['id_bbg','name','cur_mkt_cap']])
+if nsdf.shape[0]:
+    df = df.sort_values(['date', 'id_bbg'])
+    df = df[df['id_bbg'].isin(nsdf['id_bbg'])]
 
-df = df.sort_values(['date', 'id_bbg'])
-df = df[df['id_bbg'].isin(nsdf['id_bbg'])]
-df['total_market_cap'] = df.groupby(['date'])['cur_mkt_cap'].transform('sum')
-df['return'] = df['px_last']/df['px_last_1']-1
-df['weight'] = np.log(df['cur_mkt_cap'])/np.log(df['total_market_cap'])
-df['weighted_return']= (df['return']*df['weight'])+1
-df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
+    df['total_market_cap'] = df.groupby(['date'])['cur_mkt_cap'].transform('sum')
+    df['return'] = df['px_last']/df['px_last_1']-1
+    df['weight'] = np.log(df['cur_mkt_cap'])/np.log(df['total_market_cap'])
+    df['weighted_return']= (df['return']*df['weight'])+1
+    df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
 
-tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
-tdf['green_index'] = tdf.mean(axis=1)
+    tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
+    tdf['green_index'] = tdf.mean(axis=1)
 
-import plotly.express as px
-import plotly.graph_objects as go
+    import plotly.express as px
+    import plotly.graph_objects as go
 
-fig = go.Figure()
-fig.add_scatter(x=tdf.index, y = tdf['green_index'],
-                mode = 'lines',
-                line = dict(color='#6d904f', width=5),
-                showlegend=False)
+    fig = go.Figure()
+    fig.add_scatter(x=tdf.index, y = tdf['green_index'],
+                    mode = 'lines',
+                    line = dict(color='#6d904f', width=5),
+                    showlegend=False)
 
-fig.update_layout(
-        title=dict(text='MY Green Ekonomi Index', font_size=36),
-        width=1200, height=600,
-            xaxis=dict(
-                autorange=True,
-                showline=True,
-                showgrid=False,
-                showticklabels=True,
-                automargin=True,
-                linecolor='black',
-                linewidth=2,
-                ticks='outside',
-                tickfont=dict(
-                    family='Arial',
-                    size=12,
-                    color='rgb(82, 82, 82)',
+    fig.update_layout(
+            title=dict(text='MY Green Ekonomi Index', font_size=36),
+            width=1200, height=600,
+                xaxis=dict(
+                    autorange=True,
+                    showline=True,
+                    showgrid=False,
+                    showticklabels=True,
+                    automargin=True,
+                    linecolor='black',
+                    linewidth=2,
+                    ticks='outside',
+                    tickfont=dict(
+                        family='Arial',
+                        size=12,
+                        color='rgb(82, 82, 82)',
+                    ),
                 ),
-            ),
-            yaxis=dict(
-                title='Green Index',
-                gridcolor='#D5D8DC',
-                tickformat='.2f',
-                showgrid=True,
-                zeroline=False,
-                showline=False,
-                showticklabels=True,
-            ),
-            autosize=True,
-            margin=dict(
-                autoexpand=True,
-                l=150,
-                r=10,
-                t=110,
-                #pad=200,
-            ),
-            showlegend=True,
-            legend=dict(
-            orientation="h",
-            yanchor="top",
-            y=-0.2,
-            xanchor="left",
-            ),
-            plot_bgcolor='white')
-fig.layout.xaxis.fixedrange = True
-fig.layout.yaxis.fixedrange = True
+                yaxis=dict(
+                    title='Green Index',
+                    gridcolor='#D5D8DC',
+                    tickformat='.2f',
+                    showgrid=True,
+                    zeroline=False,
+                    showline=False,
+                    showticklabels=True,
+                ),
+                autosize=True,
+                margin=dict(
+                    autoexpand=True,
+                    l=150,
+                    r=10,
+                    t=110,
+                    #pad=200,
+                ),
+                showlegend=True,
+                legend=dict(
+                orientation="h",
+                yanchor="top",
+                y=-0.2,
+                xanchor="left",
+                ),
+                plot_bgcolor='white')
+    fig.layout.xaxis.fixedrange = True
+    fig.layout.yaxis.fixedrange = True
 
-st.plotly_chart(fig)
+    st.plotly_chart(fig)
