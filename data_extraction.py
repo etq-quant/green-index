@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from git import Repo
-from app_config import MongoConfig, git_path
+from app_config import MongoConfig, git_path, ids, start_date
 
 
 if __name__ == '__main__':
@@ -13,11 +13,7 @@ if __name__ == '__main__':
     origin.pull("main")
 
 
-    ids = ['TNB MK Equity', 'YTLP MK Equity', 'SOLAR MK Equity', 'CYP MK Equity', 'JAK MK Equity', 'HSS MK Equity', 'RLEB MK Equity', 'STHB MK Equity', 'SUNVIEW MK Equity',
-        'SAMAIDEN MK Equity', 'CITAGLB MK Equity', 'JSB MK Equity', 'MLM MK Equity', 'MNHLDG MK Equity', 'PEKAT MK Equity', 'UZMA MK Equity'
-        ]
-
-    dq = MongoConfig.readRAW.find({'ID_BBG': {'$in': ids}, 'DATE': {'$gte': datetime(2022,1,1)}})
+    dq = MongoConfig.readRAW.find({'ID_BBG': {'$in': ids}, 'DATE': {'$gte': start_date}})
     df = pd.DataFrame(dq)
     df.columns = df.columns.str.lower()
     df = df[['date','id_bbg', 'name', 'px_last', 'px_last_1', 'cur_mkt_cap']].copy()
