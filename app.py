@@ -16,7 +16,7 @@ st.set_page_config(
 df = pd.read_csv('green_index_data.csv')
 date = df['date'].max()
 
-st.write("# 🌏 :earth_asia: MY Green Ekonomi Index!")
+st.write("# 🌏 MY Green Ekonomi Index!")
 st.caption(f'date: {date} ', unsafe_allow_html=True)
 
 sdf = df[df['date']==df['date'].max()].sort_values(['cur_mkt_cap'], ascending=False)[['id_bbg','name','cur_mkt_cap']]
