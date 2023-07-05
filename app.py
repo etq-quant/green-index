@@ -68,7 +68,7 @@ if nsdf.shape[0]:
                      marker = {'color':'#fc4f30', 'size':10},
                      showlegend = False,
                      text = ['{:,.3f}'.format(fig.data[0].y[-1])],
-                     textfont=dict(color='#fc4f30', size=21),
+                     textfont=dict(color='#fc4f30', size=22),
                      textposition='middle right')
 
     fig.update_layout(
@@ -102,9 +102,9 @@ if nsdf.shape[0]:
                 margin=dict(
                     autoexpand=True,
                     l=150,
-                    r=100,
+                    r=0,
                     t=110,
-                    pad=20,
+                    pad=0,
                 ),
                 showlegend=True,
                 legend=dict(
