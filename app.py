@@ -104,7 +104,7 @@ if nsdf.shape[0]:
                     l=150,
                     r=10,
                     t=110,
-                    #pad=200,
+                    pad=200,
                 ),
                 showlegend=True,
                 legend=dict(
