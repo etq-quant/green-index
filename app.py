@@ -67,7 +67,7 @@ if nsdf.shape[0]:
                      mode = 'markers + text',
                      marker = {'color':'#fc4f30', 'size':10},
                      showlegend = False,
-                     text = ['{:,.2f}'.format(fig.data[0].y[-1])],
+                     text = ['{:,.3f}'.format(fig.data[0].y[-1])],
                      textfont=dict(color='#fc4f30', size=24),
                      textposition='middle right')
 
@@ -92,7 +92,7 @@ if nsdf.shape[0]:
                 yaxis=dict(
                     title='Green Index',
                     gridcolor='#D5D8DC',
-                    tickformat='.2f',
+                    tickformat='.3f',
                     showgrid=True,
                     zeroline=False,
                     showline=False,
