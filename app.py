@@ -102,7 +102,7 @@ if nsdf.shape[0]:
                 margin=dict(
                     autoexpand=True,
                     l=150,
-                    r=20,
+                    r=50,
                     t=110,
                     #pad=20,
                 ),
