@@ -13,13 +13,14 @@ st.set_page_config(
     )
 
 
-df = pd.read_csv('green_index_data.csv')
-date = df['date'].max()
+odf = pd.read_csv('green_index_data.csv')
+odf = odf.sort_values(['date', 'id_bbg'])
+date = odf['date'].max()
 
 st.write("# 🌏 MY Green Ekonomi Index!")
 st.caption(f'date: {date} ', unsafe_allow_html=True)
 
-sdf = df[df['date']==df['date'].max()].sort_values(['cur_mkt_cap'], ascending=False)[['id_bbg','name','cur_mkt_cap']]
+sdf = odf[odf['date']==odf['date'].max()].sort_values(['cur_mkt_cap'], ascending=False)[['id_bbg','name','cur_mkt_cap']]
 sdf = sdf.reset_index(drop=True)
 gd = GridOptionsBuilder.from_dataframe(sdf)
 gd.configure_selection(selection_mode='multiple', pre_selected_rows=sdf['id_bbg'].tolist() ,use_checkbox=True)
@@ -40,8 +41,8 @@ selected_row = grid_table["selected_rows"]
 nsdf = pd.DataFrame(selected_row)
 #st.dataframe(nsdf[['id_bbg','name','cur_mkt_cap']])
 if nsdf.shape[0]:
-    df = df.sort_values(['date', 'id_bbg'])
-    df = df[df['id_bbg'].isin(nsdf['id_bbg'])]
+    
+    df = odf[odf['id_bbg'].isin(nsdf['id_bbg'])].copy()
 
     df['log_market_cap'] = np.log(df['cur_mkt_cap'])
     df['total_log_market_cap'] = df.groupby(['date'])['log_market_cap'].transform('sum')
