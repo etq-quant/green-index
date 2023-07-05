@@ -4,7 +4,7 @@ from git import Repo
 from app_config import MongoConfig, git_path, start_date
 
 ids = ['TNB MK Equity', 'YTLP MK Equity', 'SOLAR MK Equity', 'CYP MK Equity', 'JAK MK Equity', 'HSS MK Equity', 'RLEB MK Equity', 'STHB MK Equity', 'SUNVIEW MK Equity',
-        'SAMAIDEN MK Equity', 'CITAGLB MK Equity', 'JSB MK Equity', 'MLK MK Equity', 'MNHLDG MK Equity', 'PEKAT MK Equity', 'UZMA MK Equity'
+        'SAMAIDEN MK Equity', 'CITAGLB MK Equity', 'JSB MK Equity', 'MLK MK Equity', 'MNHLDG MK Equity', 'PEKAT MK Equity', 'UZMA MK Equity', 'UEMS MK Equity'
         ]
 
 if __name__ == '__main__':
