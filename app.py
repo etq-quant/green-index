@@ -46,13 +46,14 @@ if nsdf.shape[0]:
 
     df['log_market_cap'] = np.log(df['cur_mkt_cap'])
     df['total_log_market_cap'] = df.groupby(['date'])['log_market_cap'].transform('sum')
-    df['return'] = df['px_last']/df['px_last_1']-1
+    df['return'] = df['px_last']/df['px_last_1']
     df['weight'] = df['log_market_cap']/df['total_log_market_cap']
-    df['weighted_return']= (df['return']*df['weight'])+1
-    df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
-
-    tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
-    tdf['green_index'] = tdf.mean(axis=1)
+    df['weighted_return']= (df['return']*df['weight'])
+    tdf = (df.groupby(['date'])['weighted_return'].sum()).cumprod().reset_index().set_index('date')
+    tdf = tdf.rename(columns={'weighted_return': 'green_index'})
+    # df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
+    # tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
+    # tdf['green_index'] = tdf.mean(axis=1)
 
     import plotly.express as px
     import plotly.graph_objects as go
