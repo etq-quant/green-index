@@ -1,3 +1,4 @@
+import datetime
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -53,13 +54,17 @@ if nsdf.shape[0]:
     tdf = tdf.rename(columns={'weighted_return': 'green_index'})
     # df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
     # tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
-    tdf['green_index'] = (tdf['green_index']-1)*100
+    tdf['green_index'] = (tdf['green_index']-1)
+    x = pd.to_datetime(tdf.index)
+    min_x = x.min()
+    max_x = x.max() + datetime.timedelta(days=45)
 
+    print(tdf.index)
     import plotly.express as px
     import plotly.graph_objects as go
 
     fig = go.Figure()
-    fig.add_scatter(x=tdf.index, y = tdf['green_index'],
+    fig.add_scatter(x=x, y = tdf['green_index'],
                     mode = 'lines',
                     line = dict(color='#6d904f', width=5),
                     showlegend=False)
@@ -68,15 +73,17 @@ if nsdf.shape[0]:
                      mode = 'markers + text',
                      marker = {'color':'#fc4f30', 'size':10},
                      showlegend = False,
-                     text = ['{:,.3f}%'.format(fig.data[0].y[-1])],
-                     textfont=dict(color='#fc4f30', size=22),
+                     text = ['{:,.1%}'.format(fig.data[0].y[-1])],
+                     textfont=dict(color='#fc4f30', size=20),
                      textposition='middle right')
+                    #  textposition='top center')
 
     fig.update_layout(
             title=dict(text='MY Green Ekonomi Index', font_size=36),
             width=1200, height=600,
+            xaxis_range=[min_x, max_x],
                 xaxis=dict(
-                    autorange=True,
+                    # autorange=True,
                     showline=True,
                     showgrid=False,
                     showticklabels=True,
@@ -93,7 +100,7 @@ if nsdf.shape[0]:
                 yaxis=dict(
                     title='Green Index',
                     gridcolor='#D5D8DC',
-                    tickformat='.3f%',
+                    tickformat='.1%',
                     showgrid=True,
                     zeroline=False,
                     showline=False,
@@ -102,8 +109,8 @@ if nsdf.shape[0]:
                 autosize=True,
                 margin=dict(
                     autoexpand=True,
-                    l=150,
-                    r=0,
+                    l=0,
+                    r=10,
                     t=110,
                     pad=0,
                 ),
@@ -118,4 +125,4 @@ if nsdf.shape[0]:
     fig.layout.xaxis.fixedrange = True
     fig.layout.yaxis.fixedrange = True
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
