@@ -53,7 +53,7 @@ if nsdf.shape[0]:
     tdf = tdf.rename(columns={'weighted_return': 'green_index'})
     # df['cum_return'] = df.groupby(['id_bbg'])['weighted_return'].cumprod()
     # tdf = df.pivot_table(values='cum_return',index='date', columns='id_bbg')
-    # tdf['green_index'] = tdf.mean(axis=1)
+    tdf['green_index'] = (tdf['green_index']-1)*100
 
     import plotly.express as px
     import plotly.graph_objects as go
@@ -93,7 +93,7 @@ if nsdf.shape[0]:
                 yaxis=dict(
                     title='Green Index',
                     gridcolor='#D5D8DC',
-                    tickformat='.3f',
+                    tickformat='.2f%',
                     showgrid=True,
                     zeroline=False,
                     showline=False,
