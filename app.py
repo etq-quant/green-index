@@ -59,7 +59,6 @@ if nsdf.shape[0]:
     min_x = x.min()
     max_x = x.max() + datetime.timedelta(days=45)
 
-    print(tdf.index)
     import plotly.express as px
     import plotly.graph_objects as go
 
